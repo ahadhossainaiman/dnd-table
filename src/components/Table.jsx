@@ -1,61 +1,82 @@
 /* eslint-disable react/prop-types */
 
+import { useState } from "react";
 
-const Table = ({currentItems}) => {
-    console.log(currentItems);
-    return (
-        <table className="table">
+const Table = ({ currentItems }) => {
+  const [hiddenColumns, setHiddenColumns] = useState([]);
+  const headerData = [
+    {
+      id: "client_name",
+      value: "Name",
+    },
+    {
+      id: "project_type",
+      value: "Job",
+    },
+    {
+      id: "deadline",
+      value: "Deadline",
+    },
+  ];
+  const toggleColumnVisibility = (columnName)=>{
+    console.log(columnName);
+    if (hiddenColumns.includes(columnName)) {
+        setHiddenColumns(hiddenColumns.filter((col) => col !== columnName));
+      } else {
+        setHiddenColumns([...hiddenColumns, columnName]);
+      }
+  }
+  return (
+    <div>
+      <details className="dropdown">
+        <summary className="m-1 btn">open or close</summary>
+        <ul className="p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-52">
+          {
+            headerData.map((thead)=>(
+            <>
+                <li>
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={!hiddenColumns.includes(thead.id)}
+                    onChange={() => toggleColumnVisibility(thead.id)}
+                  />
+                  {thead.value}
+                </label>
+                </li>
+            </>
+            ))
+          }
+        </ul>
+      </details>
+      <table className="table mt-60">
         {/* head */}
         <thead>
           <tr>
-            <th>status</th>
-            <th>Name</th>
-            <th>Job</th>
-            <th>Favorite Color</th>
-            <th>Details</th>
+            {headerData?.map((head) => {
+              return  !hiddenColumns.includes(head.id) &&(
+                <>
+                  <th>{head?.value}</th>
+                </>
+              );
+            })}
           </tr>
         </thead>
         <tbody>
-          {/* row 1 */}
-          {/* row 2 */}
-         {
-            currentItems?.map((item)=>{
-                return (
-                    <>
-           <tr>
-            <th>
-              <label>
-                <input type="checkbox" className="checkbox" />
-              </label>
-            </th>
-            <td>
-              <div className="flex items-center gap-3">
-                <div>
-                  <div className="font-bold">{item.client_name}</div>
-                  <div className="text-sm opacity-50">United States</div>
-                </div>
-              </div>
-            </td>
-            <td>
-              Zemlak, Daniel and Leannon
-              <br />
-              <span className="badge badge-ghost badge-sm">
-                Desktop Support Technician
-              </span>
-            </td>
-            <td>Purple</td>
-            <th>
-              <button className="btn btn-ghost btn-xs">details</button>
-            </th>
-           </tr>
-           </>
-                )
-            })
-         }
+
+          {currentItems.map((item, rowIndex) => (
+            <tr key={rowIndex}>
+              {headerData.map((thead) =>  !hiddenColumns.includes(thead.id) && (
+                <>
+                  <td>{item[thead.id]}</td>
+                </>
+              ))}
+            </tr>
+          ))}
         </tbody>
-     
       </table>
-    );
+    </div>
+  );
 };
 
 export default Table;
