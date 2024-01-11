@@ -3,6 +3,7 @@ import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
 import "./App.css";
 import PaginationItems from "./components/PaginationItems";
+import BarChartSection from "./components/BarChartSection";
 
 function App() {
   // const tableHead = [
@@ -30,7 +31,10 @@ function App() {
   return (
     <>
       <div className="overflow-x-auto">
-       
+        <span className="flex justify-center items-center my-14">
+        <BarChartSection />
+        </span>
+    
         <PaginationItems itemsPerPage={10}/>
       </div>
     </>

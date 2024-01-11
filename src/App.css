@@ -2,6 +2,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  border-radius: 10px;
+  margin: 50px 0px;
 
 }
 .pagination li {
@@ -10,5 +12,5 @@
   background-color: rgb(255, 255, 255);
 }
 li.page-item.active{
-  background-color: rgb(185, 222, 252);
+  background-color: #1D82F5;
 }

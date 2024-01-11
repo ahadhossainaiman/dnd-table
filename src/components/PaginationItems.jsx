@@ -1,6 +1,7 @@
 import ReactPaginate from 'react-paginate';
 import Table from './Table';
 import { useEffect, useState } from 'react';
+import { FaAnglesLeft } from "react-icons/fa6";
 
 const PaginationItems = ({ itemsPerPage }) => {
     const [itemOffset, setItemOffset] = useState(0);
@@ -30,7 +31,7 @@ const PaginationItems = ({ itemsPerPage }) => {
       <Table currentItems={currentItems} />
       <ReactPaginate
         breakLabel="..."
-        nextLabel="next >>"
+        nextLabel="next"
         onPageChange={handlePageClick}
         pageClassName="page-item"
         pageLinkClassName="page-link"
@@ -40,7 +41,7 @@ const PaginationItems = ({ itemsPerPage }) => {
         nextLinkClassName="page-link"
         pageRangeDisplayed={5}
         pageCount={pageCount}
-        previousLabel="<< previous"
+        previousLabel={`Previous`}
         breakClassName="page-item"
         breakLinkClassName="page-link"
         containerClassName="pagination"
