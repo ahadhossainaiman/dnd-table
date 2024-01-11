@@ -4,6 +4,7 @@ import { useState } from "react";
 
 const Table = ({ currentItems }) => {
   const [hiddenColumns, setHiddenColumns] = useState([]);
+  const [draggedColumn, setDraggedColumn] = useState(null);
   const headerData = [
     {
       id: "client_name",
@@ -26,6 +27,35 @@ const Table = ({ currentItems }) => {
         setHiddenColumns([...hiddenColumns, columnName]);
       }
   }
+
+  //dnd
+  const handleDragStart = (e, columnName) => {
+    e.dataTransfer.setData('text/plain', columnName);
+    setDraggedColumn(columnName);
+  };
+
+  const handleDrop = (e) => {
+    e.preventDefault();
+    const targetColumn = e.dataTransfer.getData('text/plain');
+
+    if (draggedColumn && targetColumn && draggedColumn !== targetColumn) {
+      const updatedColumns = visibleColumns.slice();
+      const draggedIndex = updatedColumns.indexOf(draggedColumn);
+      const targetIndex = updatedColumns.indexOf(targetColumn);
+
+      updatedColumns.splice(draggedIndex, 1);
+      updatedColumns.splice(targetIndex, 0, draggedColumn);
+
+      setVisibleColumns(updatedColumns);
+    }
+
+    setDraggedColumn(null);
+  };
+
+  const handleDragOver = (e) => {
+    e.preventDefault();
+  };
+
   return (
     <div>
       <details className="dropdown">
@@ -49,7 +79,7 @@ const Table = ({ currentItems }) => {
           }
         </ul>
       </details>
-      <table className="table mt-60">
+      <table className="table mt-60" onDrop={handleDrop} onDragOver={handleDragOver}>
         {/* head */}
         <thead>
           <tr>
